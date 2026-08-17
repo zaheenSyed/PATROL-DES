@@ -1,0 +1,72 @@
+{
+  "sim_name": "OWDES-MP_two_node_channel",
+  "description": "Two static aligned nodes with a configured channel. Default config sets a comfortable link margin so threshold mode behaves like slice 2; weak-link and stochastic variants are produced by tests via in-memory edits.",
+  "random_seed": 7,
+  "simulation": {
+    "duration_s": 0.02
+  },
+  "termination_condition": {
+    "type": "first_link_discovered"
+  },
+  "channel": {
+    "mode": "threshold",
+    "wavelength_nm": 1550,
+    "sigma_dBkm": 0.1,
+    "Cn2": 1e-15
+  },
+  "nodes": [
+    {
+      "id": "A",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "fixed",
+        "initial_m": [0.0, 0.0, 0.0]
+      },
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0,
+        "tx_power_dBm": 20.0,
+        "receiver_aperture_m": 0.08,
+        "receiver_sensitivity_dBm": -35.0
+      },
+      "initial_pointing": [1.0, 0.0, 0.0],
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02
+      }
+    },
+    {
+      "id": "B",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "fixed",
+        "initial_m": [100.0, 0.0, 0.0]
+      },
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0,
+        "tx_power_dBm": 20.0,
+        "receiver_aperture_m": 0.08,
+        "receiver_sensitivity_dBm": -35.0
+      },
+      "initial_pointing": [-1.0, 0.0, 0.0],
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02
+      }
+    }
+  ],
+  "outputs": {
+    "results_dir": "results/two_node_channel"
+  }
+}

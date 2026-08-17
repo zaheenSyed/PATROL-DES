@@ -1,0 +1,102 @@
+{
+  "sim_name": "OWDES-MP_two_satellite_isl_1000km",
+  "description": "Two LEO satellites with optical ISL at 1000 km separation. Static positions for a clean scanner comparison (mobility can be enabled by switching position.model to constant_velocity or circular_orbit). Above-atmosphere vacuum link: no atmospheric attenuation, negligible turbulence. Narrow ~0.01 deg full-divergence beam typical of commercial inter-satellite optical terminals. Receiver sensitivity -45 dBm at +33 dBm (2 W) transmit gives ~19 dB margin at 1000 km when aligned.\n\nNeighbor knowledge models a 1 km ephemeris uncertainty (search radius at peer range). Experiments override this to sweep the (uncertainty / beam_footprint) ratio that governs how hard the scanner has to hunt.",
+  "random_seed": 11,
+  "simulation": {
+    "duration_s": 10.0,
+    "mobility_update_period_s": 0.0
+  },
+  "termination_condition": {
+    "type": "first_link_discovered"
+  },
+  "channel": {
+    "mode": "threshold",
+    "wavelength_nm": 1550,
+    "sigma_dBkm": 0.0,
+    "Cn2": 1e-20
+  },
+  "nodes": [
+    {
+      "id": "sat_A",
+      "type": "satellite",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "fixed",
+        "initial_m": [0.0, 0.0, 0.0]
+      },
+      "optical_terminal": {
+        "range_m": 5000000.0,
+        "beam_divergence_deg": 0.01,
+        "max_angular_speed_deg_s": 10.0,
+        "tx_power_dBm": 33.0,
+        "receiver_aperture_m": 0.1,
+        "receiver_sensitivity_dBm": -45.0
+      },
+      "scanner": {
+        "type": "beta",
+        "alpha": 0.41485,
+        "beta": 0.41485
+      },
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.5,
+        "keepalive_period_s": 0.01,
+        "link_timeout_s": 0.1
+      }
+    },
+    {
+      "id": "sat_B",
+      "type": "satellite",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "fixed",
+        "initial_m": [1000000.0, 0.0, 0.0]
+      },
+      "optical_terminal": {
+        "range_m": 5000000.0,
+        "beam_divergence_deg": 0.01,
+        "max_angular_speed_deg_s": 10.0,
+        "tx_power_dBm": 33.0,
+        "receiver_aperture_m": 0.1,
+        "receiver_sensitivity_dBm": -45.0
+      },
+      "scanner": {
+        "type": "beta",
+        "alpha": 0.41485,
+        "beta": 0.41485
+      },
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.5,
+        "keepalive_period_s": 0.01,
+        "link_timeout_s": 0.1
+      }
+    }
+  ],
+  "neighbor_knowledge": {
+    "mode": "estimated_positions",
+    "pairs": [
+      {
+        "src": "sat_A",
+        "dst": "sat_B",
+        "estimated_position_m": [1000000.0, 0.0, 0.0],
+        "uncertainty_radius_m": 1000.0
+      },
+      {
+        "src": "sat_B",
+        "dst": "sat_A",
+        "estimated_position_m": [0.0, 0.0, 0.0],
+        "uncertainty_radius_m": 1000.0
+      }
+    ]
+  },
+  "outputs": {
+    "results_dir": "results/two_satellite_isl_1000km"
+  }
+}

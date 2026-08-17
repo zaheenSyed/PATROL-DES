@@ -1,0 +1,118 @@
+{
+  "sim_name": "OWDES-MP_two_node_vibration",
+  "description": "Two stationary hovering nodes 100 m apart, both with measured drone vibration (translational dX/dY/dZ from drone data/hover/pose_deviation.csv) and pointing jitter (dRoll/dPitch/dYaw from the same CSV). Different time_offset_s on each node decorrelates the vibrations. Demonstrates the Phase A vibration port end-to-end: discovery under jitter, transient handshake, link maintenance, occasional outages from misalignment, and TCP recovery via cwnd reset.",
+  "random_seed": 17,
+  "simulation": {
+    "duration_s": 2.0,
+    "mobility_update_period_s": 0.001,
+    "beam_sample_interval_s": 0.0001
+  },
+  "termination_condition": {
+    "type": "fixed_duration"
+  },
+  "channel": {
+    "mode": "threshold",
+    "wavelength_nm": 1550,
+    "sigma_dBkm": 0.0,
+    "Cn2": 1e-20
+  },
+  "data_session": {
+    "src": "A",
+    "dst": "B",
+    "bytes_to_transfer": 1.0e9,
+    "tick_interval_s": 0.001,
+    "capacity_bps": 1.0e9,
+    "noise_floor_dBm": -65.0,
+    "bandwidth_hz": 1.0e9,
+    "max_data_rate_bps": 1.0e10,
+    "tcp": {
+      "mss_bytes": 1500,
+      "init_cwnd_mss": 1
+    }
+  },
+  "neighbor_knowledge": {
+    "pairs": [
+      {"src": "A", "dst": "B", "estimated_position_m": [100.0, 0.0, 0.0], "uncertainty_radius_m": 2.0},
+      {"src": "B", "dst": "A", "estimated_position_m": [0.0, 0.0, 0.0], "uncertainty_radius_m": 2.0}
+    ]
+  },
+  "nodes": [
+    {
+      "id": "A",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "vibration_csv",
+        "initial_m": [0.0, 0.0, 0.0],
+        "csv_path": "drone data/hover/pose_deviation.csv",
+        "time_offset_s": 0.0,
+        "mag_mult": 1.0
+      },
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0,
+        "tx_power_dBm": 20.0,
+        "receiver_aperture_m": 0.08,
+        "receiver_sensitivity_dBm": -35.0,
+        "pointing_jitter": {
+          "type": "csv_playback",
+          "csv_path": "drone data/hover/pose_deviation.csv",
+          "time_offset_s": 0.0,
+          "mag_mult": 1.0
+        }
+      },
+      "initial_pointing": [1.0, 0.0, 0.0],
+      "scanner": {"type": "beta", "alpha": 0.7616, "beta": 0.7616},
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02,
+        "keepalive_period_s": 0.001,
+        "link_timeout_s": 0.005
+      }
+    },
+    {
+      "id": "B",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "vibration_csv",
+        "initial_m": [100.0, 0.0, 0.0],
+        "csv_path": "drone data/hover/pose_deviation.csv",
+        "time_offset_s": 80.0,
+        "mag_mult": 1.0
+      },
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0,
+        "tx_power_dBm": 20.0,
+        "receiver_aperture_m": 0.08,
+        "receiver_sensitivity_dBm": -35.0,
+        "pointing_jitter": {
+          "type": "csv_playback",
+          "csv_path": "drone data/hover/pose_deviation.csv",
+          "time_offset_s": 80.0,
+          "mag_mult": 1.0
+        }
+      },
+      "initial_pointing": [-1.0, 0.0, 0.0],
+      "scanner": {"type": "beta", "alpha": 0.7616, "beta": 0.7616},
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02,
+        "keepalive_period_s": 0.001,
+        "link_timeout_s": 0.005
+      }
+    }
+  ],
+  "outputs": {
+    "results_dir": "results/two_node_vibration"
+  }
+}

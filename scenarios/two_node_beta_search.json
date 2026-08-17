@@ -1,0 +1,85 @@
+{
+  "sim_name": "OWDES-MP_two_node_beta_search",
+  "description": "Two static nodes with Beta-walk scanners searching a small uncertainty region around the peer's estimated position. Discovery requires the scanner to align beams during a beacon-and-handshake cycle.",
+  "random_seed": 7,
+  "simulation": {
+    "duration_s": 5.0
+  },
+  "termination_condition": {
+    "type": "first_link_discovered"
+  },
+  "nodes": [
+    {
+      "id": "A",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "fixed",
+        "initial_m": [0.0, 0.0, 0.0]
+      },
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0
+      },
+      "scanner": {
+        "type": "beta",
+        "alpha": 0.7616,
+        "beta": 0.7616
+      },
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02
+      }
+    },
+    {
+      "id": "B",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "fixed",
+        "initial_m": [100.0, 0.0, 0.0]
+      },
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0
+      },
+      "scanner": {
+        "type": "beta",
+        "alpha": 0.7616,
+        "beta": 0.7616
+      },
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02
+      }
+    }
+  ],
+  "neighbor_knowledge": {
+    "mode": "estimated_positions",
+    "pairs": [
+      {
+        "src": "A",
+        "dst": "B",
+        "estimated_position_m": [100.0, 0.0, 0.0],
+        "uncertainty_radius_m": 3.0
+      },
+      {
+        "src": "B",
+        "dst": "A",
+        "estimated_position_m": [0.0, 0.0, 0.0],
+        "uncertainty_radius_m": 3.0
+      }
+    ]
+  },
+  "outputs": {
+    "results_dir": "results/two_node_beta_search"
+  }
+}

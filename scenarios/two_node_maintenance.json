@@ -1,0 +1,66 @@
+{
+  "sim_name": "OWDES-MP_two_node_maintenance",
+  "description": "A is static at the origin with beam locked along +X. B starts at (100, 0, 0) and moves at (0, 100, 0) m/s, drifting perpendicular to A's beam. With a 5deg full divergence (half = 2.5deg = 0.0436 rad), alignment breaks when B's y-offset exceeds 100*tan(2.5deg) ~ 4.37 m, i.e. around t ~ 44 ms. Link forms quickly (~3.5 ms), is maintained by KeepAlives, then collapses around t ~ 49 ms once the health timer expires.",
+  "random_seed": 11,
+  "simulation": {
+    "duration_s": 0.07,
+    "mobility_update_period_s": 0.001
+  },
+  "termination_condition": {
+    "type": "fixed_duration"
+  },
+  "nodes": [
+    {
+      "id": "A",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "fixed",
+        "initial_m": [0.0, 0.0, 0.0]
+      },
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0
+      },
+      "initial_pointing": [1.0, 0.0, 0.0],
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02,
+        "keepalive_period_s": 0.001,
+        "link_timeout_s": 0.005
+      }
+    },
+    {
+      "id": "B",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "constant_velocity",
+        "initial_m": [100.0, 0.0, 0.0],
+        "velocity_mps": [0.0, 100.0, 0.0]
+      },
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0
+      },
+      "initial_pointing": [-1.0, 0.0, 0.0],
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02,
+        "keepalive_period_s": 0.001,
+        "link_timeout_s": 0.005
+      }
+    }
+  ],
+  "outputs": {
+    "results_dir": "results/two_node_maintenance"
+  }
+}

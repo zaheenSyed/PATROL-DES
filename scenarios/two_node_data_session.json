@@ -1,0 +1,89 @@
+{
+  "sim_name": "OWDES-MP_two_node_data_session",
+  "description": "End-to-end discovery -> transfer -> outage -> reconnect demo. A is static at origin; B starts within beam and drifts perpendicular to the boresight at 100 m/s, so the link establishes quickly, carries data for ~40 ms, then drops when B exits the beam half-divergence. The data session pauses (cwnd -> 1 MSS), and re-discovery is not attempted in this scenario because B keeps moving away. Demonstrates the full TCP lifecycle including slow-start penalty on outage.",
+  "random_seed": 11,
+  "simulation": {
+    "duration_s": 0.1,
+    "mobility_update_period_s": 0.001
+  },
+  "termination_condition": {
+    "type": "fixed_duration"
+  },
+  "channel": {
+    "mode": "threshold",
+    "wavelength_nm": 1550,
+    "sigma_dBkm": 0.0,
+    "Cn2": 1e-20
+  },
+  "data_session": {
+    "src": "A",
+    "dst": "B",
+    "bytes_to_transfer": 1.25e8,
+    "tick_interval_s": 0.001,
+    "capacity_bps": 1.0e9,
+    "noise_floor_dBm": -65.0,
+    "bandwidth_hz": 1.0e9,
+    "max_data_rate_bps": 1.0e10,
+    "tcp": {
+      "mss_bytes": 1500,
+      "init_cwnd_mss": 1
+    }
+  },
+  "nodes": [
+    {
+      "id": "A",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {"model": "fixed", "initial_m": [0.0, 0.0, 0.0]},
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0,
+        "tx_power_dBm": 20.0,
+        "receiver_aperture_m": 0.08,
+        "receiver_sensitivity_dBm": -35.0
+      },
+      "initial_pointing": [1.0, 0.0, 0.0],
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02,
+        "keepalive_period_s": 0.001,
+        "link_timeout_s": 0.005
+      }
+    },
+    {
+      "id": "B",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "position": {
+        "model": "constant_velocity",
+        "initial_m": [100.0, 0.0, 0.0],
+        "velocity_mps": [0.0, 100.0, 0.0]
+      },
+      "optical_terminal": {
+        "range_m": 1000.0,
+        "beam_divergence_deg": 5.0,
+        "max_angular_speed_deg_s": 1800.0,
+        "tx_power_dBm": 20.0,
+        "receiver_aperture_m": 0.08,
+        "receiver_sensitivity_dBm": -35.0
+      },
+      "initial_pointing": [-1.0, 0.0, 0.0],
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02,
+        "keepalive_period_s": 0.001,
+        "link_timeout_s": 0.005
+      }
+    }
+  ],
+  "outputs": {
+    "results_dir": "results/two_node_data_session"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "sim_name": "OWDES-MP_three_node_validation",
+  "description": "Three protocol-only nodes (no geometry, no channel) with the same beacon parameters as the slice-1 two-node test. Used to validate multi-node graph metrics and the three network-level termination conditions. Tests override `termination_condition` per case.",
+  "random_seed": 7,
+  "simulation": {
+    "duration_s": 0.1
+  },
+  "termination_condition": {
+    "type": "connected_graph"
+  },
+  "nodes": [
+    {
+      "id": "A",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02
+      }
+    },
+    {
+      "id": "B",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02
+      }
+    },
+    {
+      "id": "C",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02
+      }
+    }
+  ],
+  "outputs": {
+    "results_dir": "results/three_node_validation"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "sim_name": "OWDES-MP_two_node_validation",
+  "description": "Two-node parity scenario reproducing hand_des_4.py's periodic-beacon handshake. No mobility, no channel, no scanner - protocol-only.",
+  "random_seed": 7,
+  "simulation": {
+    "duration_s": 0.02,
+    "log_level": "INFO"
+  },
+  "termination_condition": {
+    "type": "first_link_discovered"
+  },
+  "nodes": [
+    {
+      "id": "A",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02
+      }
+    },
+    {
+      "id": "B",
+      "type": "generic_mobile",
+      "start_time_s": 0.0,
+      "protocol": {
+        "beacon_period_s": 0.001512,
+        "beacon_phase_s": "random",
+        "packet_duration_s": 0.000404,
+        "processing_delay_s": 0.0001,
+        "handshake_timeout_s": 0.02
+      }
+    }
+  ],
+  "outputs": {
+    "results_dir": "results/two_node_validation",
+    "save_event_log": false
+  }
+}
