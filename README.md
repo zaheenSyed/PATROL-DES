@@ -24,7 +24,6 @@ This repository is the simulator behind our IEEE MILCOM paper:
 
 Optical wireless links promise **multi-gigabit, low-probability-of-intercept** connectivity across meshes of UAVs, high-altitude platforms, and LEO satellites — but real deployment is gated by **PAT under mobility, atmospheric turbulence, and beam-pointing jitter**. PATROL jointly models beam alignment, the FSO channel, asynchronous handshake protocols, mobility, scanning, and link maintenance for *N*-node aerial networks, and shows how beam divergence *β*, scanning strategy, and platform vibration drive **discovery latency, timeout probability, link availability, and outage behavior**.
 
-**Headline results:** timeout probability drops from **58 % at β = 3°** and **11 % at β = 5°** to **0 % for β ≥ 10°**, while scaling experiments reach **N = 32 nodes (496 pairwise FSMs)**.
 
 📌 *See [How to cite](#-citation) for the BibTeX entry.*
 
