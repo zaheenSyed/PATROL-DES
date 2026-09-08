@@ -3,3 +3,10 @@ scipy>=1.10
 matplotlib>=3.7
 networkx>=3.0
 pytest>=7.0
+
+# Optional: owdesmp.plotting.link_maintenance
+pandas>=2.0
+
+# Optional: owdesmp.rl (Gymnasium env + PPO training)
+gymnasium>=0.29
+stable-baselines3>=2.0

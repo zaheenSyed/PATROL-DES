@@ -66,14 +66,27 @@ Optical wireless links promise **multi-gigabit, low-probability-of-intercept** c
 ## 🚀 Quickstart
 
 ```bash
-# 1. Install dependencies
 pip install -r requirements.txt
-
-# 2. Run a two-node discovery validation (100 Monte-Carlo runs)
-python main.py --scenario scenarios/two_node_validation.json --runs 100 --seed 42
 ```
 
-Results (per-run traces + summary) are written to the scenario's `outputs.results_dir`.
+There is no standalone CLI runner yet — scenarios are driven directly from Python:
+
+```python
+from owdesmp.core.scenario_loader import load_scenario
+from owdesmp.core.simulator import Simulator
+
+scenario = load_scenario("scenarios/two_node_validation.json")
+for run_id in range(100):
+    result = Simulator(scenario=scenario, run_id=run_id, seed=42 + run_id).run()
+    print(run_id, result["success"])
+```
+
+For batch experiments (β sweeps, scanner comparisons, RL training) see the scripts in
+[`experiments/`](experiments), each runnable standalone, e.g.:
+
+```bash
+python experiments/exp_scanner_compare_vs_beta.py --quick
+```
 
 **Try other scenarios:**
 
@@ -123,7 +136,7 @@ The suite covers handshake parity against the legacy oracle, channel and geometr
 If you use OWDES-MP / PATROL in your research, please cite:
 
 ```bibtex
-@inproceedings{syed2025patrol,
+@inproceedings{syed2026patrol,
   title     = {{PATROL}: An Event-Driven Simulator for Intelligent {PAT}
                in Aerial Optical Wireless Networks},
   author    = {Syed, Zaheen E Muktadi and Yuksel, Murat},
@@ -137,7 +150,7 @@ If you use OWDES-MP / PATROL in your research, please cite:
 
 ## 📜 License
 
-Released under the [MIT License](LICENSE) — © 2025 Zaheen E Muktadi Syed.
+Released under the [MIT License](LICENSE) — © 2026 Zaheen E Muktadi Syed.
 
 <div align="center">
 <sub>Built at the Networking & Wireless Systems Lab, University of Central Florida.</sub>

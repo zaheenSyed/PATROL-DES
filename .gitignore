@@ -5,6 +5,10 @@ __pycache__/
 
 # OWDES-MP run outputs
 /results/
+/runs/
+/arcc_results/
+/paper_results/
+tools/*_result.json
 
 # Editor / IDE
 .claude/
